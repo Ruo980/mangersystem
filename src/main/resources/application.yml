@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: manger
+
+---
+#配置数据源
+spring:
+  datasource:
+    url: jdbc:mysql:///mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false #    ///表示省略对应的IP和端口mybatis是指数据库
+    username: root
+    password: 1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+    cache: false #取消缓存，关闭引擎模板的缓存
+    #视图解析器配置
+    prefix: classpath:/templates/ #默认的，可以不要设置
+    suffix: .html
+  profiles: manger
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 80MB
+      max-request-size: 80MB
+#配置端口
+server:
+  port: 9998
+
+---
+server:
+  port: 9998
+
+spring:
+  datasource:
+    url: jdbc:mysql:///mybatis?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false #    ///表示省略对应的IP和端口mybatis是指数据库
+    username: root
+    password: '1a3e1ec03e2b32c6'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles: manger-linux
+  thymeleaf:
+    cache: false #取消缓存，关闭引擎模板的缓存
+    #视图解析器配置
+    prefix: classpath:/templates/ #默认的，可以不要设置
+    suffix: .html
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 80MB
+      max-request-size: 80MB

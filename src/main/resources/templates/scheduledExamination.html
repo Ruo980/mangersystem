@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>已排考试情况</title>
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+</head>
+<body>
+<table id="examinationscheduled" lay-filter="scheduledExamination"></table>
+<script th:src="@{/lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table', 'layer'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        table.render({
+            elem: '#examinationscheduled'
+            , toolbar: true//开启工具栏打印等
+            , defaultToolbar: ['filter', 'print', 'exports']
+            , url: '/dataExamination'
+            , height: 500
+            , page: true //开启分页
+            , cols: [
+                [ //表头
+                    {field: 'examinationid', title: 'ID', width: '8%', sort: true, fixed: 'left'}
+                    , {field: 'examinationname', title: '考试名', width: '10%'}
+                    , {field: 'teacher', title: '监考员', width: '8%'}
+                    , {field: 'maxpeople', title: '考试容量', width: '12%', sort: true}
+                    , {field: 'number', title: '预约人数', width: '12%', sort: true}
+                    , {field: 'telphone', title: '联系方式', width: '15%'}
+                    , {field: 'opentime', title: '开课时间', width: '18%', sort: true}
+                    , {field: 'closetime', title: '结课时间', width: '18%', sort: true}
+                    , {field: 'remarks', title: '备注信息', width: '14%'}
+                    , {fixed: 'right', title: '操作', width: 200, align: 'center', fixed: 'right', toolbar: '#barDemo'}//每行有编辑、删除、查看
+                ]]
+        });
+
+        //工具条事件
+        table.on('tool(scheduledExamination)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值",里面不需要双引号
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            var examinationid = data.examinationid;
+            if (layEvent === 'detail') { //查看
+                window.location.href = "/reservationExamination?examinationid=" + examinationid;
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('真的删除该考试吗', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        type: "POST",
+                        url: '/deleteExamination',
+                        data: JSON.stringify(data),
+                        dataType: 'json'
+                    });
+                });
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

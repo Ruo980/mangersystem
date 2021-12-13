@@ -1,0 +1,145 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/welcome"
+  },
+  "logoInfo": {
+    "title": "百 策",
+    "image": "images/test.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "教务管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "信息中心",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "报名信息",
+              "href": "/studentRoster",
+              "icon": "fa fa-database",
+              "target": "_self"
+            },
+            {
+              "title": "学习信息",
+              "href": "/learnMessage",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "学员成绩分析",
+              "href": "/userPassword",
+              "icon": "fa fa-pencil",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "排课中心",
+          "href": "",
+          "icon": "fa fa-mortar-board",
+          "target": "_self",
+          "child": [
+            {
+              "title": "课程发布",
+              "href": "/courseRelease",
+              "icon": "fa fa-plus-circle",
+              "target": "_self"
+            },
+            {
+              "title": "已排课程",
+              "href": "/scheduledCourses",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "考试中心",
+          "href": "",
+          "icon": "fa fa-calendar",
+          "target": "_self",
+          "child": [
+            {
+              "title": "考试发布",
+              "href": "/examinationRelease",
+              "icon": "fa fa-list-alt",
+              "target": "_self"
+            },
+            {
+              "title": "报名情况",
+              "href": "/scheduledExamination",
+              "icon": "fa fa-navicon",
+              "target": "_self"
+            },
+            {
+              "title": "考试成绩分析",
+              "href": "/examinationAnalysis",
+              "icon": "fa fa-send-o",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "教学评价中心",
+          "href": "/teachingEvaluation",
+          "icon": "fa fa-comment-o",
+          "target": "_self"
+        },
+        {
+          "title": "公告发布",
+          "href": "/announcementRelease",
+          "icon": "fa fa-pencil-square-o",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "title": "协议管理",
+      "icon": "fa fa-lemon-o",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "合同签约",
+          "href": "",
+          "icon": "fa fa-dot-circle-o",
+          "target": "_self",
+          "child": [
+            {
+              "title": "协议下载",
+              "href": "/protocolDownload",
+              "icon": "fa fa-cloud-download",
+              "target": "_self"
+            },
+            {
+              "title": "协议收件箱",
+              "href": "/protocolReceivingBox",
+              "icon": "fa fa-envelope-o",
+              "target": "_self"
+            },
+            {
+              "title": "协议发布",
+              "href": "/protocolSend",
+              "icon": "fa fa-folder-open-o",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "加盟管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self"
+    }
+  ]
+}

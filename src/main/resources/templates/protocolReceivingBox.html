@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <script>
+        /*
+        * @author      :liangrunyong
+        * @data        :2021/8/24 17:27
+        * @description :协议收件箱
+        */
+    </script>
+    <meta charset="UTF-8">
+    <title>文件收件箱</title>
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+</head>
+<body>
+<table id="uploaded" lay-filter="uploaded"></table>
+</body>
+<script th:src="@{/lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+<script th:inline="javascript">
+    layui.use(['table', 'layer'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        table.render({
+            elem: '#uploaded'
+            , url: '/searcheUploadedProtocol'//查的是该用户所有上传的协议
+            , height: 500
+            , page: true //开启分页
+            , cols: [
+                [ //表头
+                    {field: 'protocolname', title: '协议名称', width: '40%', sort: true, fixed: 'left', align: 'center'}
+                    , {field: 'uploadtime', title: '上传时间', width: '30%', sort: true, align: 'center'}
+                    , {field: 'account', title: '账号', width: '15%', align: 'center'}
+                    , {field: 'username', title: '用户名', width: '15%', align: 'center'}
+                ]]
+        });
+
+        /*单点某一行直接下载*/
+        //触发行单击事件
+        table.on('row(uploaded)', function (obj) {
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            var data = obj.data;
+            var protocolname = data.protocolname;
+            window.location.href = "/seeProtocol?protocolname=" + protocolname;
+        });
+    })
+
+
+</script>
+</body>
+</html>

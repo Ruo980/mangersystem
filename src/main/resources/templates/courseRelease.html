@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>课程发布</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">课程ID：</label>
+        <div class="layui-input-block">
+            <input type="text" name="courseid" lay-verify="required|number" lay-reqtext="课程ID不能为空" placeholder="请输入课程ID"
+                   value="" class="layui-input">
+            <tip>填写课程的ID号。</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">课程名：</label>
+        <div class="layui-input-block">
+            <input type="text" name="coursename" lay-verify="required" lay-reqtext="课程名不能为空" placeholder="请输入课程名"
+                   value="" class="layui-input">
+            <tip>填写课程的名称。</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">任课教师：</label>
+        <div class="layui-input-block">
+            <input type="text" name="teacher" lay-verify="required" lay-reqtext="任课教师名不能为空" placeholder="请输入任课教师姓名"
+                   value="" class="layui-input">
+            <tip>填写任课教师名称。</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">课程人数：</label>
+        <div class="layui-input-block">
+            <input type="number" name="maxpeople" placeholder="请填写该课程最大容纳人数" value="" class="layui-input"
+                   lay-verify="number" required>
+            <tip>填写该课程最大容纳人数。</tip>
+        </div>
+    </div>
+    <input type="hidden" name="number" placeholder="课程预定人数" value="0" class="layui-input" required>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系方式:</label>
+        <div class="layui-input-block">
+            <input type="input" name="telphone" placeholder="请输入电话号码" value="" class="layui-input" lay-verify="phone"
+                   required lay-reqtext="手机不能为空" id="telphone">
+            <tip>为方便学员联系任课教师，请如实填写</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开课时间:</label>
+        <div class="layui-input-block">
+            <input type="text" name="opentime" class="layui-input" id="opentime" required>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结课时间:</label>
+        <div class="layui-input-block">
+            <input type="text" name="closetime" class="layui-input" id="closetime" required>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea name="remarks" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="saveBtn">发布课程</button>
+        </div>
+    </div>
+</div>
+<script th:src="@{lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+<script th:inline="javascript">
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+        form.on('submit(saveBtn)', function (data) {
+            data.field.shstate = 1;
+            $.ajax({
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: '/coursesave',
+                data: JSON.stringify(data.field),//@RequestBody只接受json格式，使用JSON.stringify时注意加headers属性。两个都要使用
+                success: function (map) {
+                    if (map.insertCourseYes === "yes") {
+                        layer.msg("课程添加成功");
+                    } else {
+                        layer.msg("该课程已存在");
+                    }
+                }
+            });
+            return true;
+        });
+
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#opentime', //指定元素
+            format: 'MM月dd日 HH时mm分',
+            type: 'datetime',
+            min: 0,
+            max: 7 //7天后
+        });
+
+        laydate.render({
+            elem: '#closetime', //指定元素
+            format: 'MM月dd日 HH时mm分',
+            type: 'datetime',
+            min: 0,
+            max: 7
+        });
+
+    });
+</script>
+</body>
+</html>

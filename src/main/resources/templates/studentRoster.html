@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生花名册展示</title>
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+</head>
+<body>
+<table id="studentRegister" lay-filter="studentRegister"></table>
+<script th:src="@{/lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['table', 'layer'], function () {
+        var table = layui.table;
+        var $ = layui.$;
+        table.render({
+            elem: '#studentRegister'//标签的id值
+            , toolbar: true//开启工具栏打印等
+            , defaultToolbar: ['filter', 'print', 'exports']
+            , url: '/dataStudentRegister'
+            , height: 500
+            , page: true //开启分页
+            , cols: [
+                [ //表头
+                    {field: 'username', title: '姓名', width: '10%', sort: true, fixed: 'left'}
+                    , {field: 'account', title: '账号', width: '10%'}
+                    , {field: 'password', title: '密码', width: '10%'}
+                    , {field: 'sex', title: '性别', width: '8%', sort: true}
+                    , {field: 'birthday', title: '出生日期', width: '14%'}
+                    , {field: 'education', title: '学历', width: '8%', sort: true}
+                    , {field: 'experience', title: '从业经历', width: '45%', sort: true}
+                    , {fixed: 'right', width: 200, align: 'center', fixed: 'right', toolbar: '#barDemo'}//每行有编辑、删除、查看
+                ]]
+        });
+
+        //工具条事件
+        table.on('tool(studentRegister)', function (obj) { //注：tool 是工具条事件名，studentRegister 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            console.log(data);
+            if (layEvent === 'detail') { //查看
+                var index = layer.alert(JSON.stringify(data), {
+                    title: '学生信息'
+                }, function () {
+                    layer.close(index);
+                    var iframeIndex = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(iframeIndex);
+
+                });
+
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('确定删除学生吗', function (index) {
+                    /*console.log("index:"+index);//查看选择的结果，确定结果为1*/
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存，是前端删除
+                    layer.close(index);
+                    $.ajax({
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        type: "POST",
+                        url: '/deleteStudent',
+                        data: JSON.stringify(data),
+                        dataType: 'json'
+                    });//向服务端发送删除指令,只能使用ajax方式
+                });
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

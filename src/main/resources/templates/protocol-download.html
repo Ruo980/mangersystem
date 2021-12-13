@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>协议下载</title>
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+    <script th:src="@{/lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+    <style>
+        .layui-btn {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+            width: 100px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md2">
+            <img th:src="@{/images/download.png}">
+            <br>
+            <button type='button' class='layui-btn  layui-btn-radius layui-btn-normal' onclick='download(1)'>
+                <i class="layui-icon layui-icon-download-circle">意向协议</i>
+            </button>
+        </div>
+        <div class="layui-col-md2">
+            <img th:src="@{/images/download.png}">
+            <br>
+            <button type='button' class='layui-btn  layui-btn-radius layui-btn-normal' onclick='download(2)'>
+                <i class="layui-icon layui-icon-download-circle">城市合伙人</i>
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+<script>
+    //下载文件
+    function download(id) {
+        if (id == 1) {
+            window.open("/document/意向协议书.doc");
+        } else if (id == 2) {
+            window.open("/document/城市合伙人协议.doc");
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查看考试预约情况</title>
+    <link rel="stylesheet" th:href="@{/lib/layui-v2.6.3/css/layui.css}" media="all">
+</head>
+<body>
+<table id="examinationreservation" lay-filter="test"></table>
+<script th:src="@{/lib/layui-v2.6.3/layui.js}" charset="utf-8"></script>
+<script th:inline="javascript">
+    var examinationid = [[${examinationid}]];
+    console.log(examinationid);
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#examinationreservation'
+            , height: 500
+            , toolbar: true
+            , url: '/examinationReservation?examinationid=' + examinationid
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'examinationid', title: 'ID', width: 80, sort: true, fixed: 'left', align: 'center'}
+                , {field: 'examinationname', title: '考试名', width: 150, sort: true, align: 'center'}
+                , {field: 'username', title: '用户名', width: 120, align: 'center'}
+                , {field: 'account', title: '账号', width: 150, align: 'center'}
+                , {field: 'idnumber', title: '身份证号', width: 200, align: 'center'}
+                , {field: 'opentime', title: '开考时间', width: 200, sort: true, align: 'center'}
+                , {field: 'closetime', title: '结束时间', width: 200, sort: true, align: 'center'}
+                , {field: 'confirmName', title: '考生签名', width: 200, align: 'center'}
+            ]]
+        });
+
+    });
+</script>
+</body>
+</html>
